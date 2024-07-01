@@ -49,7 +49,7 @@ UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
-
+Manager* project;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,13 +68,13 @@ static void MX_TIM17_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	if (huart->Instance == USART3) {
-		//project.esp.module.RA_ESP_Interrupt();
+		project->esp.module.RA_ESP_Interrupt();
 	}
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM17){
-		//project.esp.module.RA_ESP_Counter();
+		project->esp.module.RA_ESP_Counter();
 	}
 	if(htim->Instance == TIM16){
 
@@ -117,16 +117,18 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
+  project = new Manager();
+
   HAL_TIM_Base_Start_IT(&htim16);
   HAL_TIM_Base_Start_IT(&htim17);
   /* USER CODE END 2 */
-  Manager project;
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  project.esp.E_WiFiInit();
+	  project->esp.E_WiFiInit();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

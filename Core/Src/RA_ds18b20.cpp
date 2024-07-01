@@ -111,7 +111,7 @@ ds18b20::ds18b20(void) {
 
 
 ds18b20::~ds18b20(void) {
-	//printfx("\r\nDEINIT\r\n");
+	printfx("\r\nDEINIT\r\n");
 	// Hi-Z state
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 	GPIO_InitStruct.Pin = onewire.DataPin;
