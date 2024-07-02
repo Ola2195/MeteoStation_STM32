@@ -42,3 +42,50 @@ Mikrokontroler STM32F303RE jest podłączony przez kabel micro-AB USB.
 - **Pin RESET**: Podłączony do pinu GPIO PC4, umożliwiający reset modułu WiFi z poziomu programu.
 
 ![Schemat podłączenia](scheme.png)
+
+---
+
+# IoT Weather Station - Embedded
+
+## Project Description
+
+The IoT weather station project aims to monitor and analyze atmospheric conditions using IoT technologies. The system collects sensor data and transmits it to a server where it is stored in a database and presented via a web application (located in a separate repository).
+
+## Project Goal
+
+The main goal of the project is to create a system for accurate, reliable, and user-friendly monitoring and analysis of atmospheric conditions. This allows users to access real-time meteorological data based on measurements conducted by the weather station. The essence of the project is to provide users with information on temperature, humidity, light intensity, etc., which are crucial for various applications ranging from daily activity planning to professional environmental monitoring.
+
+## Technology
+
+The project utilizes the following technologies:
+- **STM32F303RE Microcontroller** - central processing unit.
+- **DS18B20 Temperature Sensor** - temperature measurement.
+- **ESP-01s WiFi Module** - wireless communication.
+- **HTTP** - data transmission.
+
+## Software Structure
+
+The software consists of three main modules:
+1. **Measurement Module**: Collects and processes data from sensors.
+2. **Communication Module**: Transmits data to the server using ESP-01s and HTTP.
+3. **Presentation Module**: Stores data in a MySQL database and presents it via a web application (PHP) in a separate repository.
+
+## Project Configuration
+
+### Microcontroller Peripherals Connection Diagram
+
+The STM32F303RE microcontroller is connected via a micro-AB USB cable.
+
+#### DS18B20 Sensor Connection
+- **DQ Pin**: Connected to GPIO pin PC3 of the STM32F303RE microcontroller.
+- **Pull-up Resistor**: 4.7k ohms connected between the sensor data line and the 3.3V supply, ensuring proper 1-Wire communication.
+- **Power (VDD) and Ground (GND)**: Connected to the microcontroller's power (3.3V) and ground.
+
+#### ESP-01s WiFi Module Connection
+- **Power (VCC) and Ground (GND)**: Connected to 3.3V and GND of the STM32F303RE microcontroller.
+- **RX Pin**: Connected to PB10 pin (TX of UART2) of the microcontroller.
+- **TX Pin**: Connected to PB11 pin (RX of UART2) of the microcontroller.
+- **CH_PD Pin**: Connected to the 3.3V power supply. Recommended to connect to a GPIO pin for future control.
+- **RESET Pin**: Connected to GPIO pin PC4, enabling reset of the WiFi module programmatically.
+
+![Connection Diagram](scheme.png)
