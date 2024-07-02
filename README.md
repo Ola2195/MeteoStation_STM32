@@ -40,3 +40,5 @@ Mikrokontroler STM32F303RE jest podłączony przez kabel micro-AB USB.
 - **Pin TX**: Podłączony do pinu PB11 (RX portu szeregowego UART2) mikrokontrolera.
 - **Pin CH_PD**: Podłączony do napięcia zasilania (3.3V). Zalecane podłączenie do pinu GPIO w przyszłości.
 - **Pin RESET**: Podłączony do pinu GPIO PC4, umożliwiający reset modułu WiFi z poziomu programu.
+
+![Schemat podłączenia](scheme.png)
