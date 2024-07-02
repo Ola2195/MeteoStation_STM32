@@ -227,10 +227,10 @@ void esp01s::RA_ConnectToServer(const char *server, const char *port) {
 	char CWJAPrequest[100];
 	printfx("\r\nTrying to connect to server...\r\n");
     sprintf(CWJAPrequest, "AT+CIPSTART=0,\"TCP\",\"%s\",%s", server, port);
-    ESP_ServiceRequest(CWJAPrequest, 2000, BR);
-    if(strstr((char *)esp_ring_buffer[read_buffer-1], "CONNECT")
-			|| strstr((char *)esp_ring_buffer[read_buffer-2], "CONNECT")
-			|| strstr((char *)esp_ring_buffer[read_buffer-3], "CONNECT")) {
+    ESP_ServiceRequest(CWJAPrequest, 5000, BR);
+    if(strstr((char *)esp_ring_buffer[read_buffer], "CONNECT")
+			|| strstr((char *)esp_ring_buffer[read_buffer-1], "CONNECT")
+			|| strstr((char *)esp_ring_buffer[read_buffer-2], "CONNECT")) {
     	serverStatus = true;
 	} else {
 		ESP_ServiceRequest("AT+CWJAP?", 0, BR);
@@ -301,7 +301,7 @@ uint8_t esp01s::ESP_FinishBufferProcess(int status) {
 	int moreIPD = 0;
 
 	// If an error message is received, reset the MCU
-	if(strstr((char *)esp_ring_buffer[read_buffer], "busy") || (strstr((char *)esp_ring_buffer[read_buffer], "ERROR") && !wifiStatus)) {
+	if(strstr((char *)esp_ring_buffer[read_buffer], "busy p") || (strstr((char *)esp_ring_buffer[read_buffer], "ERROR") && !wifiStatus)) {
 		printfx("\r\n{%s}\r\n", esp_ring_buffer[read_buffer]);
 		RA_ESP_Reset();
 	}

@@ -20,8 +20,7 @@
 #include "main.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-//#include "Manager.hpp"
-#include "E_TemperatureSensor.hpp"
+#include "Manager.hpp"
 #include <string>
 /* USER CODE END Includes */
 
@@ -49,7 +48,7 @@ UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
-//Manager* project;
+Manager* project;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,15 +67,16 @@ static void MX_TIM17_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	if (huart->Instance == USART3) {
-		//project->M_WiFiReceivingInterupt();
+		project->M_WiFiReceivingInterupt();
 	}
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM17){
-		//project->M_WiFiCounterInterupt();
+		project->M_WiFiCounterInterupt();
 	}
 	if(htim->Instance == TIM16){
+		//project->M_PeriodicReadings();
 		//project->M_SendMeasurements();
 	}
 }
@@ -117,8 +117,10 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
-  //project = new Manager();
-  TemperatureSensor tempSensor;
+  __HAL_RCC_TIM4_CLK_ENABLE();
+  HAL_TIM_Base_Start(&htim4);
+
+  project = new Manager();
 
   HAL_TIM_Base_Start_IT(&htim16);
   HAL_TIM_Base_Start_IT(&htim17);
@@ -129,8 +131,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  //project->M_ComponentInit();
-	  //project->M_SendMeasurements();
+	  //project->M_PeriodicReadings();
+	  project->M_ComponentInit();
+	  project->M_PeriodicReadings();
+	  project->M_SendMeasurements();
+	  HAL_Delay(200);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

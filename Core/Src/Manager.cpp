@@ -6,6 +6,7 @@
  */
 
 #include "Manager.hpp"
+#include <string>
 
 #define MAX_TEMPREAD_FLAG	3
 
@@ -18,11 +19,14 @@ void Manager::M_ComponentInit(void) {
 }
 
 void Manager::M_PeriodicReadings(void) {
+	char printTemp[100];
 	float currentTemperature;
 	M_measurements.lastTemperature = M_measurements.temperature;
 	bool tempStatus = M_GetTemperature(&currentTemperature);
 	if(tempStatus)
 		M_measurements.temperature = currentTemperature;
+	sprintf(printTemp, "/r/n%.2f/r/n", M_measurements.temperature);
+	printfx(printTemp);
 }
 
 bool Manager::M_GetTemperature(float *floatTemperature) {
@@ -40,7 +44,9 @@ bool Manager::M_GetTemperature(float *floatTemperature) {
 }
 
 void Manager::M_SendMeasurements(void) {
-	wifiModule.E_WiFiSend("temperature=23.5");
+	char printTemp[100];
+	sprintf(printTemp, "temperature=%.2f", M_measurements.temperature);
+	wifiModule.E_WiFiSend(printTemp);
 }
 
 void Manager::M_WiFiReceivingInterupt(void) {
