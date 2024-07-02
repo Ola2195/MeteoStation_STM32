@@ -226,14 +226,29 @@ void esp01s::WiFi_Init() {
 void esp01s::RA_ConnectToServer(const char *server, const char *port) {
 	char CWJAPrequest[100];
 	printfx("\r\nTrying to connect to server...\r\n");
-	serverStatus = true;
-    //sprintf(CWJAPrequest, "AT+CIPSTART=\"TCP\",\"%s\",%s", broker, port);
-	//sprintf(CWJAPrequest, "AT+MQTTCONN=0,\"%s\",%s,1", broker, port);
-    //ESP_ServiceRequest(CWJAPrequest, 2000, BR);
+    sprintf(CWJAPrequest, "AT+CIPSTART=0,\"TCP\",\"%s\",%s", server, port);
+    ESP_ServiceRequest(CWJAPrequest, 2000, BR);
+    if(strstr((char *)esp_ring_buffer[read_buffer-1], "CONNECT")
+			|| strstr((char *)esp_ring_buffer[read_buffer-2], "CONNECT")
+			|| strstr((char *)esp_ring_buffer[read_buffer-3], "CONNECT")) {
+    	serverStatus = true;
+	} else {
+		ESP_ServiceRequest("AT+CWJAP?", 0, BR);
+		ESP_ServiceRequest("AT+CIPSTATUS", 0, BR);
+		ESP_ServiceRequest("AT+CIPCLOSE", 0, BR);
+	}
 }
 
-void RA_SendMessage(const char *message) {
+void esp01s::RA_SendMessage(const char *message, const char *server, const char *port) {
+	char CWJAPrequest[100];
+	char sendCommand[150];
 	printfx("\r\nSend...\r\n");
+	sprintf(sendCommand,
+			"POST /insert_data.php HTTP/1.1\r\nHost: %s\r\nContent-Length: %i\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n",
+			server, strlen(message), message);
+	sprintf(CWJAPrequest, "AT+CIPSEND=%i,%i", 0, strlen(sendCommand));
+	ESP_ServiceRequest(CWJAPrequest, 0, BR);
+	ESP_ServiceRequest(sendCommand, 2000, BR);
 }
 
 
@@ -286,8 +301,10 @@ uint8_t esp01s::ESP_FinishBufferProcess(int status) {
 	int moreIPD = 0;
 
 	// If an error message is received, reset the MCU
-	if(strstr((char *)esp_ring_buffer[read_buffer], "busy") || (strstr((char *)esp_ring_buffer[read_buffer], "ERROR") && !wifiStatus))
+	if(strstr((char *)esp_ring_buffer[read_buffer], "busy") || (strstr((char *)esp_ring_buffer[read_buffer], "ERROR") && !wifiStatus)) {
+		printfx("\r\n{%s}\r\n", esp_ring_buffer[read_buffer]);
 		RA_ESP_Reset();
+	}
 
 	// Display the received data and pass it on for interpretation
 	if(status == RESPONSE_INTIME || status == HANDLE) {

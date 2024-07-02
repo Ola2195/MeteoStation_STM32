@@ -8,6 +8,9 @@
 
 #include <E_WiFiModule.hpp>
 
+#define IP_ADDRESS		"192.168.18.5"
+#define APACHE_PORT	"80"
+
 
 WiFiModule::WiFiModule() {
 
@@ -19,11 +22,11 @@ void WiFiModule::E_WiFiInit(void) {
 	  if(module.atStatus && !module.wifiStatus && !module.resetState)
 		  module.WiFi_Init();
 	  if(module.wifiStatus && !module.serverStatus)
-		  module.RA_ConnectToServer("127.0.0.1", "1883");
+		  module.RA_ConnectToServer(IP_ADDRESS, APACHE_PORT);
 }
 
 void WiFiModule::E_WiFiSend(const char *message) {
 	if(module.serverStatus) {
-//		module.RA_SendMQTTMessage("sensors/data", message);
+		module.RA_SendMessage(message, IP_ADDRESS, APACHE_PORT);
 	}
 }

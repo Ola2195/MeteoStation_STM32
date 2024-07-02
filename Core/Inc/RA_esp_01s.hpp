@@ -70,7 +70,7 @@ class esp01s {
 		 * @brief
 		 * @param 	message   The message content to be published.
 		 */
-		void RA_SendMessage(const char *message);
+		void RA_SendMessage(const char *message, const char *server, const char *port);
 
 	private:
 		/*
