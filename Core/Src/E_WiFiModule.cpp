@@ -17,16 +17,24 @@ WiFiModule::WiFiModule() {
 }
 
 void WiFiModule::E_WiFiInit(void) {
-	  if(!module.atStatus || module.resetState)
-		  module.AT_Init();
-	  if(module.atStatus && !module.wifiStatus && !module.resetState)
-		  module.WiFi_Init();
-	  if(module.wifiStatus && !module.serverStatus)
-		  module.RA_ConnectToServer(IP_ADDRESS, APACHE_PORT);
+	  if(!esp.atStatus || esp.resetState)
+		  esp.AT_Init();
+	  if(esp.atStatus && !esp.wifiStatus && !esp.resetState)
+		  esp.WiFi_Init();
+	  if(esp.wifiStatus && !esp.serverStatus)
+		  esp.RA_ConnectToServer(IP_ADDRESS, APACHE_PORT);
 }
 
 void WiFiModule::E_WiFiSend(const char *message) {
-	if(module.serverStatus) {
-		module.RA_SendMessage(message, IP_ADDRESS, APACHE_PORT);
+	if(esp.serverStatus) {
+		esp.RA_SendMessage(message, IP_ADDRESS, APACHE_PORT);
 	}
+}
+
+void WiFiModule::E_WiFiReceivingInterupt(void) {
+	esp.RA_ESP_Interrupt();
+}
+
+void WiFiModule::E_WiFiCounterInterupt(void) {
+	esp.RA_ESP_Counter();
 }

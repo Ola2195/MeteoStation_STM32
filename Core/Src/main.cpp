@@ -18,10 +18,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-//#include "Manager.hpp"
-#include <E_WiFiModule.hpp>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+//#include "Manager.hpp"
+#include "E_TemperatureSensor.hpp"
 #include <string>
 /* USER CODE END Includes */
 
@@ -50,7 +50,6 @@ UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
 //Manager* project;
-WiFiModule esp;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -69,16 +68,16 @@ static void MX_TIM17_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	if (huart->Instance == USART3) {
-		esp.module.RA_ESP_Interrupt();
+		//project->M_WiFiReceivingInterupt();
 	}
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM17){
-		esp.module.RA_ESP_Counter();
+		//project->M_WiFiCounterInterupt();
 	}
 	if(htim->Instance == TIM16){
-
+		//project->M_SendMeasurements();
 	}
 }
 /* USER CODE END 0 */
@@ -119,6 +118,7 @@ int main(void)
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
   //project = new Manager();
+  TemperatureSensor tempSensor;
 
   HAL_TIM_Base_Start_IT(&htim16);
   HAL_TIM_Base_Start_IT(&htim17);
@@ -129,8 +129,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  esp.E_WiFiInit();
-	  esp.E_WiFiSend("temperature=23.5");
+	  //project->M_ComponentInit();
+	  //project->M_SendMeasurements();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

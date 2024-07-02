@@ -26,12 +26,6 @@ class Manager {
 		/*
 		 *
 		 */
-		WiFiModule esp;
-
-		/*
-		 *
-		 */
-
 		Manager(void);
 
 		/*
@@ -45,8 +39,28 @@ class Manager {
 		 */
 		void M_SendMeasurements(void);
 
+		/*
+		 *
+		 */
+		void M_WiFiReceivingInterupt(void);
+
+		/*
+		 *
+		 */
+		void M_WiFiCounterInterupt(void);
+
+		/*
+		 *
+		 */
+		void M_ComponentInit(void);
+
 	private:
 		int tempReadFlag;
+
+		/*
+		 *
+		 */
+		WiFiModule wifiModule;
 
 		/*
 		 * Object responsible for temperature sensor functionality.

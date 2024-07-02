@@ -13,6 +13,10 @@ Manager::Manager(void) {
 	M_measurements = { 0, 0 };
 }
 
+void Manager::M_ComponentInit(void) {
+	wifiModule.E_WiFiInit();
+}
+
 void Manager::M_PeriodicReadings(void) {
 	float currentTemperature;
 	M_measurements.lastTemperature = M_measurements.temperature;
@@ -36,6 +40,14 @@ bool Manager::M_GetTemperature(float *floatTemperature) {
 }
 
 void Manager::M_SendMeasurements(void) {
-	//TODO Wysylanie po MGTT
+	wifiModule.E_WiFiSend("temperature=23.5");
+}
+
+void Manager::M_WiFiReceivingInterupt(void) {
+	wifiModule.E_WiFiReceivingInterupt();
+}
+
+void Manager::M_WiFiCounterInterupt(void) {
+	wifiModule.E_WiFiCounterInterupt();
 }
 

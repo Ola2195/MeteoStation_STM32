@@ -13,7 +13,7 @@
 
 class WiFiModule {
 	public:
-		esp01s module;
+		esp01s esp;
 
 		/*
 		 *
@@ -29,6 +29,16 @@ class WiFiModule {
 		 *
 		 */
 		void E_WiFiSend(const char *message);
+
+		/*
+		 *
+		 */
+		void E_WiFiReceivingInterupt(void);
+
+		/*
+		 *
+		 */
+		void E_WiFiCounterInterupt(void);
 };
 
 #endif /* APPLICATION_USER_WIFIMODULE_H_ */
