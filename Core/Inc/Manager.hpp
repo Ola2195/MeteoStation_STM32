@@ -18,6 +18,9 @@ class Manager {
 			float lastTemperature;
 		};
 
+		bool wifiStatus;
+
+
 		/*
 		 * Measurements structure.
 		 */

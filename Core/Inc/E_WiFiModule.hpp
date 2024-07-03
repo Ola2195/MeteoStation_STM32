@@ -15,6 +15,8 @@ class WiFiModule {
 	public:
 		esp01s esp;
 
+		bool wifiStatus;
+
 		/*
 		 *
 		 */

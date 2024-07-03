@@ -12,7 +12,7 @@
 #define APACHE_PORT	"80"
 
 
-WiFiModule::WiFiModule() {
+WiFiModule::WiFiModule() : wifiStatus(false) {
 
 }
 
@@ -23,6 +23,11 @@ void WiFiModule::E_WiFiInit(void) {
 		  esp.WiFi_Init();
 	  if(esp.wifiStatus && !esp.serverStatus)
 		  esp.RA_ConnectToServer(IP_ADDRESS, APACHE_PORT);
+	  if(esp.serverStatus) {
+		  wifiStatus = true;
+	  } else {
+		  wifiStatus = false;
+	  }
 }
 
 void WiFiModule::E_WiFiSend(const char *message) {

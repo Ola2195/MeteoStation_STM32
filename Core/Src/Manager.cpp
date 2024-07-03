@@ -10,23 +10,30 @@
 
 #define MAX_TEMPREAD_FLAG	3
 
-Manager::Manager(void) {
+Manager::Manager(void)  : wifiStatus(false) {
 	M_measurements = { 0, 0 };
 }
 
 void Manager::M_ComponentInit(void) {
 	wifiModule.E_WiFiInit();
+	if(wifiModule.wifiStatus) {
+		wifiStatus = true;
+	} else {
+		wifiStatus = false;
+	}
 }
 
 void Manager::M_PeriodicReadings(void) {
-	char printTemp[100];
-	float currentTemperature;
-	M_measurements.lastTemperature = M_measurements.temperature;
-	bool tempStatus = M_GetTemperature(&currentTemperature);
-	if(tempStatus)
-		M_measurements.temperature = currentTemperature;
-	sprintf(printTemp, "/r/n%.2f/r/n", M_measurements.temperature);
-	printfx(printTemp);
+	if(wifiModule.esp.serverStatus) {
+		char printTemp[100];
+		float currentTemperature;
+		M_measurements.lastTemperature = M_measurements.temperature;
+		bool tempStatus = M_GetTemperature(&currentTemperature);
+		if(tempStatus)
+			M_measurements.temperature = currentTemperature;
+		sprintf(printTemp, "\r\n%.2f\r\n", M_measurements.temperature);
+		printfx(printTemp);
+	}
 }
 
 bool Manager::M_GetTemperature(float *floatTemperature) {

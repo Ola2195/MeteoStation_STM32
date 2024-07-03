@@ -76,8 +76,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 		project->M_WiFiCounterInterupt();
 	}
 	if(htim->Instance == TIM16){
-		//project->M_PeriodicReadings();
-		//project->M_SendMeasurements();
+		if(project->wifiStatus) {
+			project->M_PeriodicReadings();
+			project->M_SendMeasurements();
+		}
 	}
 }
 /* USER CODE END 0 */
@@ -117,6 +119,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
+
   __HAL_RCC_TIM4_CLK_ENABLE();
   HAL_TIM_Base_Start(&htim4);
 
@@ -131,11 +134,12 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  //project->M_PeriodicReadings();
-	  project->M_ComponentInit();
-	  project->M_PeriodicReadings();
-	  project->M_SendMeasurements();
-	  HAL_Delay(200);
+	project->M_ComponentInit();
+	if(project->wifiStatus) {
+		project->M_PeriodicReadings();
+		project->M_SendMeasurements();
+		HAL_Delay(180000);
+	}
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -254,9 +258,9 @@ static void MX_TIM16_Init(void)
 
   /* USER CODE END TIM16_Init 1 */
   htim16.Instance = TIM16;
-  htim16.Init.Prescaler = 1151;
+  htim16.Init.Prescaler = 64871;
   htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim16.Init.Period = 62499;
+  htim16.Init.Period = 65481;
   htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim16.Init.RepetitionCounter = 0;
   htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;

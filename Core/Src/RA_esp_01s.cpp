@@ -232,6 +232,7 @@ void esp01s::RA_ConnectToServer(const char *server, const char *port) {
 			|| strstr((char *)esp_ring_buffer[read_buffer-1], "CONNECT")
 			|| strstr((char *)esp_ring_buffer[read_buffer-2], "CONNECT")) {
     	serverStatus = true;
+    	printfx("\r\nConnection to the server completed!\r\n");
 	} else {
 		ESP_ServiceRequest("AT+CWJAP?", 0, BR);
 		ESP_ServiceRequest("AT+CIPSTATUS", 0, BR);
@@ -241,10 +242,10 @@ void esp01s::RA_ConnectToServer(const char *server, const char *port) {
 
 void esp01s::RA_SendMessage(const char *message, const char *server, const char *port) {
 	char CWJAPrequest[100];
-	char sendCommand[150];
+	char sendCommand[200];
 	printfx("\r\nSend...\r\n");
 	sprintf(sendCommand,
-			"POST /insert_data.php HTTP/1.1\r\nHost: %s\r\nContent-Length: %i\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n",
+			"POST /meteo_station/insert_data.php HTTP/1.1\r\nHost: %s\r\nContent-Length: %i\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n",
 			server, strlen(message), message);
 	sprintf(CWJAPrequest, "AT+CIPSEND=%i,%i", 0, strlen(sendCommand));
 	ESP_ServiceRequest(CWJAPrequest, 0, BR);
