@@ -23,6 +23,12 @@ Oprogramowanie składa się z trzech głównych modułów:
 2. **Moduł Komunikacyjny**: Przesyłanie danych do serwera za pomocą ESP-01s i HTTP.
 3. **Moduł Prezentacji**: Przechowywanie danych w bazie MySQL i prezentacja za pomocą aplikacji webowej (PHP) w osobnym repozytorium.
 
+## Projekt Embedded i Aplikacja Webowa
+
+Aplikacja webowa jest częścią większego projektu MeteoStation, który składa się z dwóch głównych komponentów:
+1. **Część Embedded**: Zbieranie i przesyłanie danych z czujników przy użyciu mikrokontrolera STM32F303RE i modułu WiFi ESP-01s.
+2. **Aplikacja Webowa**: Prezentacja i analiza zebranych danych w przeglądarce internetowej. Więcej informacji znajduje się w repozytorium [MeteoStation_Web](https://github.com/Ola2195/MeteoStation_Web), czyli repozytorium aplikacji Stacja Meteo z Wykorzystaniem Technologii IoT - Aplikacja Webowa.
+
 ## Konfiguracja Projektu
 
 ### Schemat Połączeń Mikrokontrolera z Peryferiami
@@ -69,6 +75,12 @@ The software consists of three main modules:
 1. **Measurement Module**: Collects and processes data from sensors.
 2. **Communication Module**: Transmits data to the server using ESP-01s and HTTP.
 3. **Presentation Module**: Stores data in a MySQL database and presents it via a web application (PHP) in a separate repository.
+
+## Embedded Project and Web Application
+
+The web application is part of the larger MeteoStation project, which consists of two main components:
+1. **Embedded Component**: Collecting and transmitting data from sensors using the STM32F303RE microcontroller and the ESP-01s WiFi module.
+2. **Web Application**: Presenting and analyzing the collected data in a web browser. More information can be found in the [MeteoStation_Web](https://github.com/Ola2195/MeteoStation_Web) repository, which is the repository for the IoT Weather Station - Web Application.
 
 ## Project Configuration
 
