@@ -10,6 +10,7 @@
 
 #include <main.h>
 #include "stm32f3xx_hal.h"
+#include "config.h"
 
 extern UART_HandleTypeDef huart3;
 extern UART_HandleTypeDef huart2;
@@ -29,9 +30,6 @@ extern UART_HandleTypeDef huart2;
 #define  MAX_CALLBACK_TIME 7000
 
 #define IPDFOUND_SIZE 		100
-
-#define SSID 		"HUAWEI-2.4G-h5Z9"
-#define PASSWORD	"EW8ksB63"
 
 #define ESP_PIN			GPIO_PIN_4
 #define ESP_PIN_PORT	GPIOC

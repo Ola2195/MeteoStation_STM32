@@ -7,9 +7,7 @@
 
 
 #include <E_WiFiModule.hpp>
-
-#define IP_ADDRESS		"192.168.18.5"
-#define APACHE_PORT	"80"
+#include "config.h"
 
 
 WiFiModule::WiFiModule() : wifiStatus(false) {
